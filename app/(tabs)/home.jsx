@@ -8,7 +8,7 @@ import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
 
 const stats = [
-  { label: 'Cases', value: '34', icon: 'briefcase-outline', color: Colors.primary },
+  { label: 'Cases', value: '6', icon: 'briefcase-outline', color: Colors.primary },
   { label: "Today's Meetings", value: '4', icon: 'calendar-outline', color: Colors.accentGreen },
   { label: 'Pending Documents', value: '18', icon: 'document-text-outline', color: Colors.accentOrange },
   { label: 'Unpaid Invoices', value: '6', icon: 'cash-outline', color: Colors.accentRed },
@@ -54,7 +54,7 @@ export default function Home() {
             </Pressable>
           </View>
 
-          {/* Date */}
+          
           <Text style={styles.dateText}>{today}</Text>
 
         {/* Stats grid */}
