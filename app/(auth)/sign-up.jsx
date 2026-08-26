@@ -67,7 +67,7 @@ export default function SignUp() {
           {/* Header */}
           <View style={styles.headerSection}>
             <Image
-              source={require('../../assets/images/9anoun.png')}
+              source={require('../../assets/images/logo_9anoun.png')}
               style={styles.logoImage}
               resizeMode="contain"
             />

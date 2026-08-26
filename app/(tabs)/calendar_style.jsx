@@ -2,12 +2,13 @@ import { StyleSheet } from 'react-native';
 import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
+console.disableYellowBox = true;
 
 const CELL_SIZE = 42;
 
-export const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: Colors.primary },
-  container: { flex: 1, backgroundColor: Colors.background },
+export const getStyles = (colors) => StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.primary },
+  container: { flex: 1, backgroundColor: colors.background },
   scroll: { paddingBottom: Spacing.xl },
 
   // Header
@@ -17,9 +18,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
   },
-  headerTitle: { fontSize: 22, fontWeight: '700', color: Colors.white },
+  headerTitle: { fontSize: 22, fontWeight: '700', color: colors.white },
   addButton: {
     width: 36,
     height: 36,
@@ -42,12 +43,12 @@ export const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: Radius.full,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     alignItems: 'center',
     justifyContent: 'center',
     ...Shadow.card,
   },
-  monthLabel: { fontSize: 17, fontWeight: '700', color: Colors.textPrimary },
+  monthLabel: { fontSize: 17, fontWeight: '700', color: colors.textPrimary },
 
   // Day names
   dayNames: {
@@ -60,7 +61,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     ...Typography.caption,
     fontWeight: '700',
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
   },
 
   // Grid
@@ -79,22 +80,22 @@ export const styles = StyleSheet.create({
     borderRadius: Radius.full,
   },
   cellSelected: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
   },
   cellToday: {
-    backgroundColor: Colors.primary + '18',
+    backgroundColor: colors.primary + '18',
   },
-  cellText: { fontSize: 14, color: Colors.textPrimary, fontWeight: '500' },
-  cellTextSelected: { color: Colors.white, fontWeight: '700' },
-  cellTextToday: { color: Colors.primary, fontWeight: '700' },
+  cellText: { fontSize: 14, color: colors.textPrimary, fontWeight: '500' },
+  cellTextSelected: { color: colors.white, fontWeight: '700' },
+  cellTextToday: { color: colors.primary, fontWeight: '700' },
   eventDot: {
     width: 4,
     height: 4,
     borderRadius: 2,
-    backgroundColor: Colors.accentOrange,
+    backgroundColor: colors.accentOrange,
     marginTop: 2,
   },
-  eventDotSelected: { backgroundColor: Colors.white },
+  eventDotSelected: { backgroundColor: colors.white },
 
   // Events section
   eventsSection: {
@@ -103,7 +104,7 @@ export const styles = StyleSheet.create({
   eventsDayLabel: {
     ...Typography.caption,
     fontWeight: '700',
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: Spacing.md,
@@ -111,7 +112,7 @@ export const styles = StyleSheet.create({
   eventCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: Radius.lg,
     marginBottom: Spacing.sm,
     overflow: 'hidden',
@@ -125,7 +126,7 @@ export const styles = StyleSheet.create({
   eventTime: {
     fontSize: 12,
     fontWeight: '700',
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
   },
   eventStrip: {
     width: 4,
@@ -136,8 +137,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
   },
-  eventTitle: { ...Typography.h3, color: Colors.textPrimary },
-  eventSub: { ...Typography.caption, color: Colors.textSecondary, marginTop: 2 },
+  eventTitle: { ...Typography.h3, color: colors.textPrimary },
+  eventSub: { ...Typography.caption, color: colors.textSecondary, marginTop: 2 },
   eventMenu: { padding: Spacing.md },
 
   // Add event
@@ -148,7 +149,7 @@ export const styles = StyleSheet.create({
     paddingVertical: Spacing.md,
     justifyContent: 'center',
   },
-  addEventText: { ...Typography.body, color: Colors.primary, fontWeight: '600' },
+  addEventText: { ...Typography.body, color: colors.primary, fontWeight: '600' },
 
   // Modal styles
   modalOverlay: {
@@ -157,7 +158,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContainer: {
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderTopLeftRadius: Radius.lg * 1.5,
     borderTopRightRadius: Radius.lg * 1.5,
     padding: Spacing.lg,
@@ -173,7 +174,7 @@ export const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: '700',
-    color: Colors.textPrimary,
+    color: colors.textPrimary,
   },
   closeBtn: {
     padding: 4,
@@ -184,18 +185,18 @@ export const styles = StyleSheet.create({
   fieldLabel: {
     ...Typography.caption,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     marginBottom: 6,
   },
   input: {
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     borderRadius: Radius.md,
     paddingHorizontal: Spacing.md,
     paddingVertical: 10,
     fontSize: 14,
-    color: Colors.textPrimary,
+    color: colors.textPrimary,
   },
   categoryContainer: {
     flexDirection: 'row',
@@ -207,20 +208,20 @@ export const styles = StyleSheet.create({
     paddingVertical: Spacing.xs + 2,
     borderRadius: Radius.full,
     borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.background,
+    borderColor: colors.border,
+    backgroundColor: colors.background,
   },
   categoryChipActive: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   categoryChipText: {
     fontSize: 12,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
   },
   categoryChipTextActive: {
-    color: Colors.white,
+    color: colors.white,
   },
   modalActions: {
     flexDirection: 'row',
@@ -232,29 +233,29 @@ export const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: Radius.md,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: colors.border,
     alignItems: 'center',
   },
   cancelButtonText: {
     fontSize: 15,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
   },
   submitButton: {
     flex: 1,
     paddingVertical: 12,
     borderRadius: Radius.md,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     alignItems: 'center',
   },
   submitButtonText: {
     fontSize: 15,
     fontWeight: '700',
-    color: Colors.white,
+    color: colors.white,
   },
   emptyEventsText: {
     ...Typography.caption,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     textAlign: 'center',
     marginVertical: Spacing.md,
     fontStyle: 'italic',

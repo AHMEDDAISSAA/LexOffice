@@ -15,6 +15,7 @@ import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
 import { mockRecentFiles } from '../../data/mockDocuments';
+import { useTheme } from '../../constants/theme';
 
 const { width } = Dimensions.get('window');
 
@@ -40,10 +41,12 @@ const DOC_PAGES = [
 export default function DocumentViewer() {
   const router = useRouter();
   const { id } = useLocalSearchParams();
+  const { colors, isDark } = useTheme();
   const [zoom, setZoom] = useState(1);
   const [page, setPage] = useState(1);
   const totalPages = 3;
 
+  const styles = createStyles(colors);
   const file = mockRecentFiles.find((f) => f.id === id) ?? mockRecentFiles[0];
 
   return (
@@ -62,14 +65,14 @@ export default function DocumentViewer() {
           }}
           style={styles.backBtn}
         >
-          <Ionicons name="arrow-back" size={20} color={Colors.white} />
+          <Ionicons name="arrow-back" size={20} color={colors.white} />
         </Pressable>
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle} numberOfLines={1}>{file.name}</Text>
           <Text style={styles.headerSub}>Page {page} of {totalPages}</Text>
         </View>
         <Pressable style={styles.menuBtn}>
-          <Ionicons name="ellipsis-vertical" size={20} color={Colors.white} />
+          <Ionicons name="ellipsis-vertical" size={20} color={colors.white} />
         </Pressable>
       </View>
 
@@ -124,7 +127,7 @@ export default function DocumentViewer() {
             onPress={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
           >
-            <Ionicons name="chevron-back" size={18} color={page === 1 ? Colors.border : Colors.textPrimary} />
+            <Ionicons name="chevron-back" size={18} color={page === 1 ? colors.border : colors.textPrimary} />
           </Pressable>
           <Text style={styles.pageIndicator}>{page} / {totalPages}</Text>
           <Pressable
@@ -132,26 +135,26 @@ export default function DocumentViewer() {
             onPress={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
           >
-            <Ionicons name="chevron-forward" size={18} color={page === totalPages ? Colors.border : Colors.textPrimary} />
+            <Ionicons name="chevron-forward" size={18} color={page === totalPages ? colors.border : colors.textPrimary} />
           </Pressable>
         </View>
 
         {/* Actions */}
         <View style={styles.toolbarActions}>
           <Pressable style={styles.toolBtn} onPress={() => setZoom((z) => Math.max(0.6, z - 0.2))}>
-            <Ionicons name="remove" size={18} color={Colors.textPrimary} />
+            <Ionicons name="remove" size={18} color={colors.textPrimary} />
           </Pressable>
           <Pressable style={styles.toolBtn} onPress={() => setZoom((z) => Math.min(2, z + 0.2))}>
-            <Ionicons name="add" size={18} color={Colors.textPrimary} />
+            <Ionicons name="add" size={18} color={colors.textPrimary} />
           </Pressable>
           <Pressable style={styles.toolBtn}>
-            <Ionicons name="share-outline" size={18} color={Colors.textPrimary} />
+            <Ionicons name="share-outline" size={18} color={colors.textPrimary} />
           </Pressable>
           <Pressable style={styles.toolBtn}>
-            <Ionicons name="create-outline" size={18} color={Colors.textPrimary} />
+            <Ionicons name="create-outline" size={18} color={colors.textPrimary} />
           </Pressable>
           <Pressable style={[styles.toolBtn, styles.toolBtnMark]}>
-            <Ionicons name="bookmark-outline" size={18} color={Colors.white} />
+            <Ionicons name="bookmark-outline" size={18} color={colors.white} />
           </Pressable>
         </View>
       </View>
@@ -160,8 +163,8 @@ export default function DocumentViewer() {
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: Colors.primary },
+const createStyles = (colors) => StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.primary },
   container: { flex: 1, backgroundColor: '#2C2C2E' },
 
   // Header
@@ -170,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     gap: Spacing.sm,
   },
   backBtn: {
@@ -182,7 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerCenter: { flex: 1 },
-  headerTitle: { fontSize: 15, fontWeight: '700', color: Colors.white },
+  headerTitle: { fontSize: 15, fontWeight: '700', color: colors.white },
   headerSub: { ...Typography.caption, color: 'rgba(255,255,255,0.6)' },
   menuBtn: {
     width: 36,
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
   },
   pageCard: {
     width: width - Spacing.lg * 2,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     borderRadius: 4,
     padding: Spacing.xl,
     ...Shadow.card,
@@ -249,11 +252,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
     borderTopWidth: 1,
-    borderTopColor: Colors.border,
+    borderTopColor: colors.border,
   },
   pageNav: {
     flexDirection: 'row',
@@ -264,20 +267,20 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: Radius.full,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
   navBtnDisabled: { opacity: 0.4 },
-  pageIndicator: { ...Typography.caption, fontWeight: '700', color: Colors.textPrimary },
+  pageIndicator: { ...Typography.caption, fontWeight: '700', color: colors.textPrimary },
   toolbarActions: { flexDirection: 'row', gap: 6 },
   toolBtn: {
     width: 34,
     height: 34,
     borderRadius: Radius.md,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  toolBtnMark: { backgroundColor: Colors.primary },
+  toolBtnMark: { backgroundColor: colors.primary },
 });

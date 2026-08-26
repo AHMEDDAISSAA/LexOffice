@@ -1,21 +1,13 @@
 import { useState } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  Modal,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import {View,Text,ScrollView,Pressable,Modal,TextInput,KeyboardAvoidingView,Platform,ActivityIndicator} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing } from '../../constants/spacing';
-import { styles } from './calendar_style';
+import { getStyles } from './calendar_style';
+import { useTheme } from '../../constants/theme';
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -41,6 +33,8 @@ const INITIAL_EVENTS = [
 ];
 
 export default function Calendar() {
+  const { colors, isDark } = useTheme();
+  const styles = getStyles(colors);
   const [currentDate, setCurrentDate] = useState(new Date(2025, 7, 1)); // August 2025
   const [selectedDay, setSelectedDay] = useState(1);
   const [events, setEvents] = useState(INITIAL_EVENTS);

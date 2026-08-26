@@ -16,6 +16,8 @@ import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
 import { mockCases } from '../../data/mockCases';
+import { useI18n } from '../../constants/i18n';
+import { useTheme } from '../../constants/theme';
 
 const TABS = ['All', 'Active', 'Pending', 'Closed'];
 
@@ -33,6 +35,9 @@ const CASE_ICON = {
 
 export default function Cases() {
   const router = useRouter();
+  const { t } = useI18n();
+  const { colors, isDark } = useTheme();
+  const styles = createStyles(colors);
   const [activeTab, setActiveTab] = useState('All');
   const [search, setSearch] = useState('');
 
@@ -55,8 +60,8 @@ export default function Cases() {
       <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Cases</Text>
-        <Pressable style={styles.addButton}>
+        <Text style={styles.headerTitle}>{t('cases.title')}</Text>
+        <Pressable style={styles.addButton} onPress={() => router.push('/add-case')}>
           <Ionicons name="add" size={22} color={Colors.white} />
         </Pressable>
       </View>
@@ -66,7 +71,7 @@ export default function Cases() {
         <Ionicons name="search-outline" size={18} color={Colors.textSecondary} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search cases..."
+          placeholder={t('cases.searchPlaceholder')}
           placeholderTextColor={Colors.textSecondary}
           value={search}
           onChangeText={setSearch}
@@ -88,7 +93,7 @@ export default function Cases() {
               onPress={() => setActiveTab(tab)}
             >
               <Text style={[styles.tabText, activeTab === tab && styles.tabTextActive]}>
-                {tab}
+                {t(`cases.${tab.toLowerCase()}`)}
               </Text>
               <View style={[styles.tabBadge, activeTab === tab && styles.tabBadgeActive]}>
                 <Text style={[styles.tabBadgeText, activeTab === tab && styles.tabBadgeTextActive]}>
@@ -109,7 +114,7 @@ export default function Cases() {
         ListEmptyComponent={
           <View style={styles.empty}>
             <Ionicons name="folder-open-outline" size={52} color={Colors.border} />
-            <Text style={styles.emptyText}>No cases found</Text>
+            <Text style={styles.emptyText}>{t('cases.noCasesFound')}</Text>
           </View>
         }
         renderItem={({ item }) => (
@@ -137,13 +142,13 @@ export default function Cases() {
               <Text style={styles.cardClient}>{item.client}</Text>
               {item.nextHearing && (
                 <View style={styles.hearingRow}>
-                  <Ionicons name="calendar-outline" size={12} color={Colors.textSecondary} />
+                  <Ionicons name="calendar-outline" size={12} color={colors.textSecondary} />
                   <Text style={styles.hearingText}>Next: {item.nextHearing}</Text>
                 </View>
               )}
             </View>
 
-            <Ionicons name="chevron-forward" size={18} color={Colors.border} />
+            <Ionicons name="chevron-forward" size={18} color={colors.border} />
           </Pressable>
         )}
       />
@@ -152,9 +157,9 @@ export default function Cases() {
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: Colors.primary },
-  container: { flex: 1, backgroundColor: Colors.background },
+const createStyles = (colors) => StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.primary },
+  container: { flex: 1, backgroundColor: colors.background },
 
   // Header
   header: {
@@ -163,9 +168,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
   },
-  headerTitle: { fontSize: 22, fontWeight: '700', color: Colors.white },
+  headerTitle: { fontSize: 22, fontWeight: '700', color: colors.white },
   addButton: {
     width: 36,
     height: 36,
@@ -179,7 +184,7 @@ const styles = StyleSheet.create({
   searchWrap: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     marginHorizontal: Spacing.lg,
     marginTop: Spacing.md,
     marginBottom: Spacing.sm,
@@ -192,7 +197,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 14,
-    color: Colors.textPrimary,
+    color: colors.textPrimary,
   },
 
   // Tabs
@@ -205,28 +210,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: 8,
     borderRadius: Radius.full,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderWidth: 1.5,
-    borderColor: Colors.border,
+    borderColor: colors.border,
   },
   tabActive: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
-  tabText: { ...Typography.caption, fontWeight: '600', color: Colors.textSecondary },
-  tabTextActive: { color: Colors.white },
+  tabText: { ...Typography.caption, fontWeight: '600', color: colors.textSecondary },
+  tabTextActive: { color: colors.white },
   tabBadge: {
     minWidth: 20,
     height: 18,
     borderRadius: 9,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 5,
   },
   tabBadgeActive: { backgroundColor: 'rgba(255,255,255,0.25)' },
-  tabBadgeText: { fontSize: 10, fontWeight: '700', color: Colors.textSecondary },
-  tabBadgeTextActive: { color: Colors.white },
+  tabBadgeText: { fontSize: 10, fontWeight: '700', color: colors.textSecondary },
+  tabBadgeTextActive: { color: colors.white },
 
   // List
   list: { paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xl, gap: Spacing.sm },
@@ -235,7 +240,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: Radius.lg,
     padding: Spacing.md,
     gap: Spacing.sm,
@@ -251,7 +256,7 @@ const styles = StyleSheet.create({
   },
   cardInfo: { flex: 1 },
   cardTopRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 },
-  cardId: { ...Typography.caption, color: Colors.textSecondary },
+  cardId: { ...Typography.caption, color: colors.textSecondary },
   badge: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -262,12 +267,12 @@ const styles = StyleSheet.create({
   },
   dot: { width: 6, height: 6, borderRadius: 3 },
   badgeText: { fontSize: 11, fontWeight: '700' },
-  cardTitle: { ...Typography.h3, color: Colors.textPrimary, marginBottom: 2 },
-  cardClient: { ...Typography.caption, color: Colors.textSecondary },
+  cardTitle: { ...Typography.h3, color: colors.textPrimary, marginBottom: 2 },
+  cardClient: { ...Typography.caption, color: colors.textSecondary },
   hearingRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
-  hearingText: { ...Typography.caption, color: Colors.textSecondary },
+  hearingText: { ...Typography.caption, color: colors.textSecondary },
 
   // Empty
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 80, gap: Spacing.sm },
-  emptyText: { ...Typography.body, color: Colors.textSecondary },
+  emptyText: { ...Typography.body, color: colors.textSecondary },
 });

@@ -2,10 +2,11 @@ import { StyleSheet } from 'react-native';
 import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
+console.disableYellowBox = true;
 
-export const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: Colors.primary },
-  container: { flex: 1, backgroundColor: Colors.background },
+export const getStyles = (colors) => StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.primary },
+  container: { flex: 1, backgroundColor: colors.background },
   scroll: { paddingTop: Spacing.xs, paddingBottom: Spacing.xl },
 
   // Header
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     gap: Spacing.sm,
   },
   backBtn: {
@@ -26,7 +27,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerCenter: { flex: 1 },
-  headerTitle: { fontSize: 17, fontWeight: '700', color: Colors.white },
+  headerTitle: { fontSize: 17, fontWeight: '700', color: colors.white },
   headerSub: { ...Typography.caption, color: 'rgba(255,255,255,0.65)' },
   menuBtn: {
     width: 36,
@@ -46,8 +47,8 @@ export const styles = StyleSheet.create({
   },
   statusDot: { width: 8, height: 8, borderRadius: 4 },
   statusText: { fontSize: 13, fontWeight: '700' },
-  bannerSep: { width: 1, height: 14, backgroundColor: Colors.border, marginHorizontal: 4 },
-  bannerDate: { ...Typography.caption, color: Colors.textSecondary },
+  bannerSep: { width: 1, height: 14, backgroundColor: colors.border, marginHorizontal: 4 },
+  bannerDate: { ...Typography.caption, color: colors.textSecondary },
 
   // Tabs
   tabsScroll: {
@@ -55,7 +56,7 @@ export const styles = StyleSheet.create({
     flexGrow: 0,
     flexShrink: 0,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
   },
   tabsContent: {
     paddingHorizontal: Spacing.lg,
@@ -69,20 +70,20 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 48,
   },
-  tabActive: { borderBottomColor: Colors.primary },
-  tabText: { ...Typography.body, color: Colors.textSecondary, fontWeight: '500' },
-  tabTextActive: { color: Colors.primary, fontWeight: '700' },
+  tabActive: { borderBottomColor: colors.primary },
+  tabText: { ...Typography.body, color: colors.textSecondary, fontWeight: '500' },
+  tabTextActive: { color: colors.primary, fontWeight: '700' },
 
   // Card
   card: {
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: Radius.lg,
     padding: Spacing.lg,
     marginHorizontal: Spacing.lg,
     marginTop: Spacing.sm,
     ...Shadow.card,
   },
-  cardTitle: { ...Typography.h3, color: Colors.textPrimary, marginBottom: Spacing.md },
+  cardTitle: { ...Typography.h3, color: colors.textPrimary, marginBottom: Spacing.md },
 
   // Info rows
   infoRow: {
@@ -90,10 +91,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: Spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.border,
   },
-  infoLabel: { ...Typography.body, color: Colors.textSecondary },
-  infoValue: { ...Typography.body, color: Colors.textPrimary, fontWeight: '500', flex: 1, textAlign: 'right' },
+  infoLabel: { ...Typography.body, color: colors.textSecondary },
+  infoValue: { ...Typography.body, color: colors.textPrimary, fontWeight: '500', flex: 1, textAlign: 'right' },
 
   // Quick actions
   actionsRow: {
@@ -107,12 +108,12 @@ export const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: Radius.lg,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     alignItems: 'center',
     justifyContent: 'center',
     ...Shadow.card,
   },
-  actionLabel: { ...Typography.caption, color: Colors.textSecondary },
+  actionLabel: { ...Typography.caption, color: colors.textSecondary },
 
   // Activity
   activityRow: {
@@ -121,7 +122,7 @@ export const styles = StyleSheet.create({
     gap: Spacing.sm,
     paddingVertical: Spacing.sm,
   },
-  activityBorder: { borderTopWidth: 1, borderTopColor: Colors.border },
+  activityBorder: { borderTopWidth: 1, borderTopColor: colors.border },
   activityIcon: {
     width: 34,
     height: 34,
@@ -129,8 +130,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  activityText: { ...Typography.body, color: Colors.textPrimary },
-  activityTime: { ...Typography.caption, color: Colors.textSecondary, marginTop: 2 },
+  activityText: { ...Typography.body, color: colors.textPrimary },
+  activityTime: { ...Typography.caption, color: colors.textSecondary, marginTop: 2 },
 
   // Documents tab
   docRow: {
@@ -143,12 +144,12 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: Radius.md,
-    backgroundColor: Colors.accentRed + '15',
+    backgroundColor: colors.accentRed + '15',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  docName: { ...Typography.body, color: Colors.textPrimary, fontWeight: '500' },
-  docMeta: { ...Typography.caption, color: Colors.textSecondary, marginTop: 2 },
+  docName: { ...Typography.body, color: colors.textPrimary, fontWeight: '500' },
+  docMeta: { ...Typography.caption, color: colors.textSecondary, marginTop: 2 },
 
   // Timeline
   timelineItem: { flexDirection: 'row', gap: Spacing.md, paddingBottom: Spacing.md },
@@ -157,15 +158,15 @@ export const styles = StyleSheet.create({
     width: 14,
     height: 14,
     borderRadius: 7,
-    backgroundColor: Colors.border,
+    backgroundColor: colors.border,
     borderWidth: 2,
-    borderColor: Colors.border,
+    borderColor: colors.border,
   },
-  timelineDotDone: { backgroundColor: Colors.accentGreen, borderColor: Colors.accentGreen },
-  timelineLine: { width: 2, flex: 1, backgroundColor: Colors.border, marginTop: 4 },
+  timelineDotDone: { backgroundColor: colors.accentGreen, borderColor: colors.accentGreen },
+  timelineLine: { width: 2, flex: 1, backgroundColor: colors.border, marginTop: 4 },
   timelineContent: { flex: 1, paddingTop: -2 },
-  timelineDate: { ...Typography.caption, color: Colors.textSecondary },
-  timelineEvent: { ...Typography.body, color: Colors.textPrimary, fontWeight: '500', marginTop: 2 },
+  timelineDate: { ...Typography.caption, color: colors.textSecondary },
+  timelineEvent: { ...Typography.body, color: colors.textPrimary, fontWeight: '500', marginTop: 2 },
 
   // Empty tab
   emptyTab: {
@@ -173,21 +174,21 @@ export const styles = StyleSheet.create({
     paddingTop: Spacing.xl,
     gap: Spacing.sm,
   },
-  emptyTabText: { ...Typography.body, color: Colors.textSecondary },
+  emptyTabText: { ...Typography.body, color: colors.textSecondary },
   emptyTabBtn: {
     marginTop: Spacing.sm,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.sm,
     borderRadius: Radius.md,
   },
-  emptyTabBtnText: { color: Colors.white, fontWeight: '600' },
+  emptyTabBtnText: { color: colors.white, fontWeight: '600' },
 
   // Footer
   footer: {
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderTopWidth: 1,
-    borderTopColor: Colors.border,
+    borderTopColor: colors.border,
     padding: Spacing.md,
     paddingBottom: 40,
   },
@@ -196,9 +197,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: Spacing.sm,
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     borderRadius: Radius.md,
     paddingVertical: 14,
   },
-  editBtnText: { color: Colors.white, fontSize: 16, fontWeight: '700' },
+  editBtnText: { color: colors.white, fontSize: 16, fontWeight: '700' },
 });

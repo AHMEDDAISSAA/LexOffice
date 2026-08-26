@@ -14,38 +14,43 @@ import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
 import { mockUser } from '../../data/mockUser';
+import { useI18n } from '../../constants/i18n';
+import { useTheme } from '../../constants/theme';
 
-const MENU_SECTIONS = [
+const MENU_SECTIONS_DEF = [
   {
-    title: 'Account',
+    titleKey: 'profile.account',
     items: [
-      { icon: 'person-outline', label: 'Personal Information', route: null },
-      { icon: 'business-outline', label: 'Law Firm', route: null },
+      { icon: 'person-outline', labelKey: 'profile.personalInfo', route: null },
+      { icon: 'business-outline', labelKey: 'profile.lawFirm', route: null },
+      { icon: 'settings-outline', labelKey: 'profile.settings', route: '/settings' },
     ],
   },
   {
-    title: 'Security',
+    titleKey: 'profile.security',
     items: [
-      { icon: 'shield-checkmark-outline', label: 'Security', route: null },
-      { icon: 'notifications-outline', label: 'Notifications', route: null },
+      { icon: 'shield-checkmark-outline', labelKey: 'profile.security', route: null },
+      { icon: 'notifications-outline', labelKey: 'profile.notifications', route: null },
     ],
   },
   {
-    title: 'Billing',
+    titleKey: 'profile.billing',
     items: [
-      { icon: 'card-outline', label: 'Subscription', route: null },
+      { icon: 'card-outline', labelKey: 'profile.subscription', route: null },
     ],
   },
   {
-    title: 'Support',
+    titleKey: 'profile.support',
     items: [
-      { icon: 'help-circle-outline', label: 'Help & Support', route: null },
-      { icon: 'log-out-outline', label: 'Logout', route: '/(auth)/sign-in', danger: true },
+      { icon: 'help-circle-outline', labelKey: 'profile.helpSupport', route: null },
+      { icon: 'log-out-outline', labelKey: 'profile.logout', route: '/(auth)/sign-in', danger: true },
     ],
   },
 ];
 
 function InitialAvatar({ name }) {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
   const initials = name
     .split(' ')
     .map((n) => n[0])
@@ -61,7 +66,11 @@ function InitialAvatar({ name }) {
 
 export default function Profile() {
   const router = useRouter();
+  const { t } = useI18n();
+  const { colors, isDark } = useTheme();
+  const styles = createStyles(colors);
   const user = mockUser;
+  const MENU_SECTIONS = MENU_SECTIONS_DEF;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -77,17 +86,17 @@ export default function Profile() {
           {/* Quick info row */}
           <View style={styles.infoRow}>
             <View style={styles.infoItem}>
-              <Ionicons name="briefcase-outline" size={16} color={Colors.gold} />
+              <Ionicons name="briefcase-outline" size={16} color={colors.gold} />
               <Text style={styles.infoText}>34 Cases</Text>
             </View>
             <View style={styles.infoDivider} />
             <View style={styles.infoItem}>
-              <Ionicons name="people-outline" size={16} color={Colors.gold} />
+              <Ionicons name="people-outline" size={16} color={colors.gold} />
               <Text style={styles.infoText}>5 Clients</Text>
             </View>
             <View style={styles.infoDivider} />
             <View style={styles.infoItem}>
-              <Ionicons name="star-outline" size={16} color={Colors.gold} />
+              <Ionicons name="star-outline" size={16} color={colors.gold} />
               <Text style={styles.infoText}>4.9 ★</Text>
             </View>
           </View>
@@ -96,19 +105,19 @@ export default function Profile() {
         {/* Contact info pills */}
         <View style={styles.contactRow}>
           <View style={styles.contactPill}>
-            <Ionicons name="mail-outline" size={14} color={Colors.primary} />
+            <Ionicons name="mail-outline" size={14} color={colors.primary} />
             <Text style={styles.contactText} numberOfLines={1}>{user.email}</Text>
           </View>
           <View style={styles.contactPill}>
-            <Ionicons name="call-outline" size={14} color={Colors.primary} />
+            <Ionicons name="call-outline" size={14} color={colors.primary} />
             <Text style={styles.contactText}>{user.phone}</Text>
           </View>
         </View>
 
         {/* Menu sections */}
         {MENU_SECTIONS.map((section) => (
-          <View key={section.title} style={styles.section}>
-            <Text style={styles.sectionLabel}>{section.title}</Text>
+          <View key={section.titleKey} style={styles.section}>
+          <Text style={styles.sectionLabel}>{t(section.titleKey)}</Text>
             <View style={styles.menuCard}>
               {section.items.map((item, idx) => (
                 <Pressable
@@ -118,22 +127,30 @@ export default function Profile() {
                     idx < section.items.length - 1 && styles.menuItemBorder,
                     pressed && styles.menuItemPressed,
                   ]}
-                  onPress={() => item.route && router.replace(item.route)}
+                  onPress={() => {
+                    if (item.route) {
+                      if (item.danger) {
+                        router.replace(item.route);
+                      } else {
+                        router.push(item.route);
+                      }
+                    }
+                  }}
                 >
                   <View style={[styles.menuIconWrap, item.danger && styles.menuIconDanger]}>
                     <Ionicons
                       name={item.icon}
                       size={18}
-                      color={item.danger ? Colors.accentRed : Colors.primary}
+                      color={item.danger ? colors.accentRed : colors.primary}
                     />
                   </View>
                   <Text style={[styles.menuLabel, item.danger && styles.menuLabelDanger]}>
-                    {item.label}
+                    {t(item.labelKey)}
                   </Text>
                   <Ionicons
                     name="chevron-forward"
                     size={16}
-                    color={item.danger ? Colors.accentRed : Colors.border}
+                    color={item.danger ? colors.accentRed : colors.border}
                   />
                 </Pressable>
               ))}
@@ -149,14 +166,14 @@ export default function Profile() {
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: Colors.primary },
-  container: { flex: 1, backgroundColor: Colors.background },
+const createStyles = (colors) => StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.primary },
+  container: { flex: 1, backgroundColor: colors.background },
   scroll: { paddingBottom: Spacing.xl },
 
   // Hero
   heroCard: {
-    backgroundColor: Colors.primary,
+    backgroundColor: colors.primary,
     alignItems: 'center',
     paddingTop: Spacing.xl,
     paddingBottom: Spacing.xl,
@@ -166,7 +183,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: Radius.full,
-    backgroundColor: Colors.gold,
+    backgroundColor: colors.gold,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Spacing.md,
@@ -176,9 +193,9 @@ const styles = StyleSheet.create({
   avatarText: {
     fontSize: 28,
     fontWeight: '700',
-    color: Colors.white,
+    color: colors.white,
   },
-  heroName: { fontSize: 22, fontWeight: '700', color: Colors.white, marginBottom: 4 },
+  heroName: { fontSize: 22, fontWeight: '700', color: colors.white, marginBottom: 4 },
   heroRole: { ...Typography.body, color: 'rgba(255,255,255,0.7)', marginBottom: Spacing.lg },
 
   infoRow: {
@@ -191,7 +208,7 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
   },
   infoItem: { flexDirection: 'row', alignItems: 'center', gap: 6, flex: 1, justifyContent: 'center' },
-  infoText: { fontSize: 13, fontWeight: '600', color: Colors.white },
+  infoText: { fontSize: 13, fontWeight: '600', color: colors.white },
   infoDivider: { width: 1, height: 18, backgroundColor: 'rgba(255,255,255,0.2)' },
 
   // Contact
@@ -207,26 +224,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: Radius.md,
     paddingVertical: Spacing.sm,
     paddingHorizontal: Spacing.sm,
     ...Shadow.card,
   },
-  contactText: { ...Typography.caption, color: Colors.textPrimary, fontWeight: '500', flex: 1 },
+  contactText: { ...Typography.caption, color: colors.textPrimary, fontWeight: '500', flex: 1 },
 
   // Sections
   section: { marginTop: Spacing.md, paddingHorizontal: Spacing.lg },
   sectionLabel: {
     ...Typography.caption,
     fontWeight: '700',
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: Spacing.sm,
   },
   menuCard: {
-    backgroundColor: Colors.card,
+    backgroundColor: colors.card,
     borderRadius: Radius.lg,
     ...Shadow.card,
   },
@@ -237,25 +254,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     gap: Spacing.sm,
   },
-  menuItemBorder: { borderBottomWidth: 1, borderBottomColor: Colors.border },
-  menuItemPressed: { backgroundColor: Colors.background },
+  menuItemBorder: { borderBottomWidth: 1, borderBottomColor: colors.border },
+  menuItemPressed: { backgroundColor: colors.background },
   menuIconWrap: {
     width: 36,
     height: 36,
     borderRadius: Radius.md,
-    backgroundColor: Colors.primary + '12',
+    backgroundColor: colors.primary + '12',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  menuIconDanger: { backgroundColor: Colors.accentRed + '12' },
-  menuLabel: { flex: 1, ...Typography.body, fontWeight: '500', color: Colors.textPrimary },
-  menuLabelDanger: { color: Colors.accentRed },
+  menuIconDanger: { backgroundColor: colors.accentRed + '12' },
+  menuLabel: { flex: 1, ...Typography.body, fontWeight: '500', color: colors.textPrimary },
+  menuLabelDanger: { color: colors.accentRed },
 
   // Version
   version: {
     textAlign: 'center',
     ...Typography.caption,
-    color: Colors.textSecondary,
+    color: colors.textSecondary,
     marginTop: Spacing.lg,
   },
 });

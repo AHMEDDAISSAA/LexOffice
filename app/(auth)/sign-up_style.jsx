@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
+console.disableYellowBox = true;
 
 
 export const styles = StyleSheet.create({

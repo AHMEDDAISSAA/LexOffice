@@ -12,19 +12,20 @@ import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../../constants/colors';
 
 import { mockCases } from '../../data/mockCases';
-import {styles} from './case_style'
+import { getStyles } from './case_style';
+import { useTheme } from '../../constants/theme';
 
 
 const DETAIL_TABS = ['Overview', 'Documents', 'Timeline', 'Notes', 'Invoices'];
 
-const STATUS_COLOR = {
-  Active: Colors.accentGreen,
-  Pending: Colors.accentOrange,
-  Closed: Colors.textSecondary,
-};
+const getStatusColor = (colors) => ({
+  Active: colors.accentGreen,
+  Pending: colors.accentOrange,
+  Closed: colors.textSecondary,
+});
 
 
-function InfoRow({ label, value }) {
+function InfoRow({ label, value, styles }) {
   return (
     <View style={styles.infoRow}>
       <Text style={styles.infoLabel}>{label}</Text>
@@ -36,10 +37,13 @@ function InfoRow({ label, value }) {
 export default function CaseDetails() {
   const router = useRouter();
   const { id } = useLocalSearchParams();
+  const { colors, isDark } = useTheme();
+  const styles = getStyles(colors);
   const [activeTab, setActiveTab] = useState('Overview');
 
+  const STATUS_COLOR = getStatusColor(colors);
   const caseData = mockCases.find((c) => c.id === id) ?? mockCases[0];
-  const statusColor = STATUS_COLOR[caseData.status] ?? Colors.textSecondary;
+  const statusColor = STATUS_COLOR[caseData.status] ?? colors.textSecondary;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -57,14 +61,14 @@ export default function CaseDetails() {
             }}
             style={styles.backBtn}
           >
-            <Ionicons name="arrow-back" size={20} color={Colors.white} />
+            <Ionicons name="arrow-back" size={20} color={colors.white} />
           </Pressable>
           <View style={styles.headerCenter}>
             <Text style={styles.headerTitle} numberOfLines={1}>{caseData.title}</Text>
             <Text style={styles.headerSub}>Case # {caseData.id}</Text>
           </View>
           <Pressable style={styles.menuBtn}>
-            <Ionicons name="ellipsis-vertical" size={20} color={Colors.white} />
+            <Ionicons name="ellipsis-vertical" size={20} color={colors.white} />
           </Pressable>
         </View>
 
@@ -75,7 +79,7 @@ export default function CaseDetails() {
           {caseData.nextHearing && (
             <>
               <View style={styles.bannerSep} />
-              <Ionicons name="calendar-outline" size={13} color={Colors.textSecondary} />
+              <Ionicons name="calendar-outline" size={13} color={colors.textSecondary} />
               <Text style={styles.bannerDate}>Next Hearing: {caseData.nextHearing}</Text>
             </>
           )}
@@ -114,13 +118,13 @@ export default function CaseDetails() {
 
               <View style={styles.card}>
                 <Text style={styles.cardTitle}>Case Information</Text>
-                <InfoRow label="Client" value={caseData.client} />
-                <InfoRow label="Opposing Party" value={caseData.opposingParty} />
-                <InfoRow label="Court" value={caseData.court} />
-                <InfoRow label="Judge" value={caseData.judge} />
-                <InfoRow label="Start Date" value={caseData.startDate} />
-                <InfoRow label="Next Hearing" value={caseData.nextHearing} />
-                <InfoRow label="Case Type" value={caseData.caseType} />
+                <InfoRow label="Client" value={caseData.client} styles={styles} />
+                <InfoRow label="Opposing Party" value={caseData.opposingParty} styles={styles} />
+                <InfoRow label="Court" value={caseData.court} styles={styles} />
+                <InfoRow label="Judge" value={caseData.judge} styles={styles} />
+                <InfoRow label="Start Date" value={caseData.startDate} styles={styles} />
+                <InfoRow label="Next Hearing" value={caseData.nextHearing} styles={styles} />
+                <InfoRow label="Case Type" value={caseData.caseType} styles={styles} />
               </View>
 
             
@@ -133,7 +137,7 @@ export default function CaseDetails() {
                 ].map((a) => (
                   <Pressable key={a.label} style={styles.actionItem}>
                     <View style={styles.actionIcon}>
-                      <Ionicons name={a.icon} size={20} color={Colors.primary} />
+                      <Ionicons name={a.icon} size={20} color={colors.primary} />
                     </View>
                     <Text style={styles.actionLabel}>{a.label}</Text>
                   </Pressable>
@@ -144,9 +148,9 @@ export default function CaseDetails() {
               <View style={styles.card}>
                 <Text style={styles.cardTitle}>Recent Activity</Text>
                 {[
-                  { icon: 'document-attach-outline', text: 'Employment Contract.pdf added', time: '2 days ago', color: Colors.primary },
-                  { icon: 'calendar-outline', text: 'Hearing scheduled for Aug 25', time: '3 days ago', color: Colors.accentGreen },
-                  { icon: 'create-outline', text: 'Case notes updated', time: '1 week ago', color: Colors.accentOrange },
+                  { icon: 'document-attach-outline', text: 'Employment Contract.pdf added', time: '2 days ago', color: colors.primary },
+                  { icon: 'calendar-outline', text: 'Hearing scheduled for Aug 25', time: '3 days ago', color: colors.accentGreen },
+                  { icon: 'create-outline', text: 'Case notes updated', time: '1 week ago', color: colors.accentOrange },
                 ].map((a, i) => (
                   <View key={i} style={[styles.activityRow, i > 0 && styles.activityBorder]}>
                     <View style={[styles.activityIcon, { backgroundColor: a.color + '18' }]}>
@@ -169,13 +173,13 @@ export default function CaseDetails() {
               {['Employment Contract.pdf', 'Evidence_01.pdf', 'Court Notice.pdf'].map((doc, i) => (
                 <View key={i} style={[styles.docRow, i > 0 && styles.activityBorder]}>
                   <View style={styles.docIcon}>
-                    <Ionicons name="document-text" size={20} color={Colors.accentRed} />
+                    <Ionicons name="document-text" size={20} color={colors.accentRed} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.docName}>{doc}</Text>
                     <Text style={styles.docMeta}>PDF · Added recently</Text>
                   </View>
-                  <Ionicons name="download-outline" size={18} color={Colors.textSecondary} />
+                  <Ionicons name="download-outline" size={18} color={colors.textSecondary} />
                 </View>
               ))}
             </View>
@@ -206,7 +210,7 @@ export default function CaseDetails() {
 
           {(activeTab === 'Notes' || activeTab === 'Invoices') && (
             <View style={styles.emptyTab}>
-              <Ionicons name="document-outline" size={48} color={Colors.border} />
+              <Ionicons name="document-outline" size={48} color={colors.border} />
               <Text style={styles.emptyTabText}>No {activeTab.toLowerCase()} yet</Text>
               <Pressable style={styles.emptyTabBtn}>
                 <Text style={styles.emptyTabBtnText}>+ Add {activeTab.slice(0, -1)}</Text>
@@ -217,8 +221,8 @@ export default function CaseDetails() {
 
         {/* Edit button */}
         <View style={styles.footer}>
-          <Pressable style={styles.editBtn}>
-            <Ionicons name="create-outline" size={18} color={Colors.white} />
+          <Pressable style={styles.editBtn} onPress={() => router.push(`/edit-case?id=${caseData.id}`)}>
+            <Ionicons name="create-outline" size={18} color={colors.white} />
             <Text style={styles.editBtnText}>Edit Case</Text>
           </Pressable>
         </View>

@@ -67,7 +67,7 @@ export default function Onboarding() {
                 <View style={[styles.slide, styles.coverSlide]}>
                     <View style={styles.coverContent}>
                         <Image
-                            source={require('../../assets/images/logo law.png')}
+                            source={require('../../assets/images/logo_law.png')}
                             style={styles.logo}
                             resizeMode="contain"
                         />
@@ -190,9 +190,13 @@ export default function Onboarding() {
                 </View>
             ) : (
                 <View style={styles.footer}>
-                    <Pressable onPress={goToSignIn}>
-                        <Text style={styles.skipText}>Skip</Text>
-                    </Pressable>
+                    {currentIndex !== 2 ? (
+                        <Pressable onPress={goToSignIn}>
+                            <Text style={styles.skipText}>Skip</Text>
+                        </Pressable>
+                    ) : (
+                        <View />
+                    )}
 
                     <Pressable
                         onPress={goNext}
