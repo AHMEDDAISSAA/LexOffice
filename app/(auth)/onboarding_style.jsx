@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 import { Colors } from '../../constants/colors';
 import { Typography } from '../../constants/typography';
 import { Spacing, Radius, Shadow } from '../../constants/spacing';
+console.disableYellowBox = true;
 const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
@@ -18,7 +19,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: Spacing.lg,
     },
-    coverContent: {
+    coverContent: {  
         alignItems: 'center',
     },
     logo: {
